@@ -57,7 +57,18 @@ namespace ServiceLayer
             return Enumerable.Empty<StoryModel>();
         }
 
-        private async Task<int[]> GetTopStoryIdsAsync()
+        /// <summary>
+        /// Retrieves a paginated and filtered collection of top stories based on the given parameters.
+        /// </summary>
+        /// <returns>
+        /// A task representing the asynchronous operation. The task result contains a collection of
+        /// <see cref="StoryModel"/> instances that match the specified criteria.
+        /// </returns>
+        /// <remarks>
+        /// If no top stories are available, an empty collection is returned.
+        /// </remarks>
+
+        public async Task<int[]> GetTopStoryIdsAsync()
         {
             var topStoryIds = await _memoryCache.GetOrCreateAsync("Top200Stories", async entry =>
             {

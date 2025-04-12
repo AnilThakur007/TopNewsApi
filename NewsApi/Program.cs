@@ -7,9 +7,19 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.Configure<CacheSettings>(builder.Configuration.GetSection("CacheSettings"));
 builder.Services.Configure<ApiSettings>(builder.Configuration.GetSection("ApiSettings"));
 
-
 // Add services to the container.
 builder.Services.AddControllers();
+// Add CORS services and allow all origins
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll",
+        policy =>
+        {
+            policy.AllowAnyOrigin()
+                  .AllowAnyMethod()
+                  .AllowAnyHeader();
+        });
+});
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddMemoryCache();
@@ -19,6 +29,9 @@ builder.Services.AddServiceLayerServices();
 
 
 var app = builder.Build();
+// Use CORS
+app.UseCors("AllowAll");
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
