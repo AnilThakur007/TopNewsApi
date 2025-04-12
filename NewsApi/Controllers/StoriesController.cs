@@ -36,7 +36,7 @@ namespace NewsApi.Controllers
         /// <returns>
         /// An <see cref="IActionResult"/> containing the top stories that match the specified criteria.
         /// </returns>
-        [HttpGet("newest")]
+        [HttpGet("GetTopStories")]
         public async Task<IActionResult> GetTopStoriesAsync(int pageNumber,int pageSize,string searchQuery = "")
         {
             if(pageNumber <= 0 || pageSize <= 0)
@@ -44,11 +44,13 @@ namespace NewsApi.Controllers
                 return BadRequest("Page number and page size must be greater than 0.");
             }
             var stories = await _storiesService.GetTopStoriesAsync(pageNumber,pageSize,searchQuery);
-            // Check if any stories are found
-            if (stories == null || !stories.Any())
-            {
-                return NotFound("No stories found matching the criteria.");
-            }
+
+            //// Check if any stories are found
+            //if (stories == null || !stories.Any())
+            //{
+            //    return NotFound("No stories found matching the criteria.");
+            //}
+
             return Ok(stories);
         }
     }

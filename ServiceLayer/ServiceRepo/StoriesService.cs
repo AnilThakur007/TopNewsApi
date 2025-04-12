@@ -117,6 +117,12 @@ namespace ServiceLayer
                     return false; // Exclude the story
                 }
             });
+            // udpate total records
+            filteredStories = filteredStories.Select(story =>
+            {
+                story.TotalRecords = filteredStories.Count();
+                return story; // Ensure you return the modified story object.
+            }).ToList();
 
             var paginatedStories = filteredStories
                 .Skip((pageNumber - 1) * pageSize)
