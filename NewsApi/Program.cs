@@ -32,16 +32,35 @@ var app = builder.Build();
 // Use CORS
 app.UseCors("AllowAll");
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+// Enable Swagger
+app.UseSwagger();
+app.UseSwaggerUI(c =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI(c =>
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "NEWS API V1");
+    c.RoutePrefix = "swagger-ui.html";
+});
+
+app.Use(async (context, next) =>
+{
+    if (context.Request.Path == "/")
     {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "NEWS API V1");
-        c.RoutePrefix = "swagger-ui.html"; 
-    });
-}
+        context.Response.Redirect("/swagger-ui.html");
+        return;
+    }
+
+    await next.Invoke();
+});
+
+//// Configure the HTTP request pipeline.
+//if (app.Environment.IsDevelopment())
+//{
+//    app.UseSwagger();
+//    app.UseSwaggerUI(c =>
+//    {
+//        c.SwaggerEndpoint("/swagger/v1/swagger.json", "NEWS API V1");
+//        c.RoutePrefix = "swagger-ui.html"; 
+//    });
+//}
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
