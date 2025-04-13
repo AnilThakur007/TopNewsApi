@@ -31,7 +31,7 @@ namespace DataRepoLayer
         /// <returns>500 Top News Ids</returns>
         public async Task<int[]> FetchTopStoryIdsAsync()
         {
-            return (await _httpClient.GetFromJsonAsync<int[]>(_apiSettings.BaseUrl + "/newstories.json")) ?? Array.Empty<int>();
+            return (await _httpClient.GetFromJsonAsync<int[]>(_apiSettings.BaseUrl + "/topstories.json")) ?? Array.Empty<int>();
         }
 
         /// <summary>
