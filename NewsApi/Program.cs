@@ -51,16 +51,6 @@ app.Use(async (context, next) =>
     await next.Invoke();
 });
 
-//// Configure the HTTP request pipeline.
-//if (app.Environment.IsDevelopment())
-//{
-//    app.UseSwagger();
-//    app.UseSwaggerUI(c =>
-//    {
-//        c.SwaggerEndpoint("/swagger/v1/swagger.json", "NEWS API V1");
-//        c.RoutePrefix = "swagger-ui.html"; 
-//    });
-//}
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();

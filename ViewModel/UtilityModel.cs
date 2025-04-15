@@ -1,9 +1,5 @@
 ﻿namespace ViewModel
 {
-    public class UtilityModel
-    {
-    }
-
     public class CacheSettings
     {
         public int AbsoluteExpirationMinutes { get; set; }

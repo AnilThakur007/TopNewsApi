@@ -3,26 +3,25 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.13.35931.197
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewsApi", "NewsApi.csproj", "{96A90A14-D369-4B76-B5D5-F1707021AC5D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewsApi", "NewsApi\NewsApi.csproj", "{96A90A14-D369-4B76-B5D5-F1707021AC5D}"
 	ProjectSection(ProjectDependencies) = postProject
-		{1E18135E-5D61-4CE0-9D83-A182D27A5AC5} = {1E18135E-5D61-4CE0-9D83-A182D27A5AC5}
 		{44355FA3-441F-4C87-B068-01A0D006B2C3} = {44355FA3-441F-4C87-B068-01A0D006B2C3}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewModel", "..\ViewModel\ViewModel.csproj", "{1E18135E-5D61-4CE0-9D83-A182D27A5AC5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewModel", "ViewModel\ViewModel.csproj", "{1E18135E-5D61-4CE0-9D83-A182D27A5AC5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceLayer", "..\ServiceLayer\ServiceLayer.csproj", "{44355FA3-441F-4C87-B068-01A0D006B2C3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceLayer", "ServiceLayer\ServiceLayer.csproj", "{44355FA3-441F-4C87-B068-01A0D006B2C3}"
 	ProjectSection(ProjectDependencies) = postProject
 		{1E18135E-5D61-4CE0-9D83-A182D27A5AC5} = {1E18135E-5D61-4CE0-9D83-A182D27A5AC5}
 		{4F3C387B-8C60-4005-812D-58DF15B84FCA} = {4F3C387B-8C60-4005-812D-58DF15B84FCA}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataRepoLayer", "..\DataRepoLayer\DataRepoLayer.csproj", "{4F3C387B-8C60-4005-812D-58DF15B84FCA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataRepoLayer", "DataRepoLayer\DataRepoLayer.csproj", "{4F3C387B-8C60-4005-812D-58DF15B84FCA}"
 	ProjectSection(ProjectDependencies) = postProject
 		{1E18135E-5D61-4CE0-9D83-A182D27A5AC5} = {1E18135E-5D61-4CE0-9D83-A182D27A5AC5}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "..\UnitTests\UnitTests.csproj", "{966FB774-46D3-481E-A345-3D23B0626436}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{966FB774-46D3-481E-A345-3D23B0626436}"
 	ProjectSection(ProjectDependencies) = postProject
 		{1E18135E-5D61-4CE0-9D83-A182D27A5AC5} = {1E18135E-5D61-4CE0-9D83-A182D27A5AC5}
 		{44355FA3-441F-4C87-B068-01A0D006B2C3} = {44355FA3-441F-4C87-B068-01A0D006B2C3}
@@ -61,6 +60,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {483E33DE-C348-48C4-87B8-C6B571746866}
+		        SolutionGuid = {483E33DE-C348-48C4-87B8-C6B571746866}
+		SolutionGuid = {DC35BF7C-7657-4312-8C81-8C8D801A856C}
 	EndGlobalSection
 EndGlobal
