@@ -19,20 +19,12 @@
     <PackageReference Include="xunit.runner.visualstudio" Version="2.5.3" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="DataRepoLayer">
-      <HintPath>..\DataRepoLayer\bin\Debug\net8.0\DataRepoLayer.dll</HintPath>
-    </Reference>
-    <Reference Include="NewsApi">
-      <HintPath>..\NewsApi\bin\Debug\net8.0\NewsApi.dll</HintPath>
-    </Reference>
-    <Reference Include="ServiceLayer">
-      <HintPath>..\ServiceLayer\bin\Debug\net8.0\ServiceLayer.dll</HintPath>
-    </Reference>
-    <Reference Include="ViewModel">
-      <HintPath>..\ViewModel\bin\Debug\net8.0\ViewModel.dll</HintPath>
-    </Reference>
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\DataRepoLayer\DataRepoLayer.csproj" />
+		<ProjectReference Include="..\NewsApi\NewsApi.csproj" />
+		<ProjectReference Include="..\ServiceLayer\ServiceLayer.csproj" />
+		<ProjectReference Include="..\ViewModel\ViewModel.csproj" />
+	</ItemGroup>
 
   <ItemGroup>
     <Using Include="Xunit" />

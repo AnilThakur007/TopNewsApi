@@ -13,13 +13,9 @@
 	<PackageReference Include="Microsoft.Extensions.Options" Version="8.0.2" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="DataRepoLayer">
-      <HintPath>..\DataRepoLayer\bin\Debug\net8.0\DataRepoLayer.dll</HintPath>
-    </Reference>
-    <Reference Include="ViewModel">
-      <HintPath>..\ViewModel\bin\Debug\net8.0\ViewModel.dll</HintPath>
-    </Reference>
-  </ItemGroup>
+    <ItemGroup>
+		<ProjectReference Include="..\DataRepoLayer\DataRepoLayer.csproj" />
+	    <ProjectReference Include="..\ViewModel\ViewModel.csproj" />
+    </ItemGroup>
 
 </Project>
