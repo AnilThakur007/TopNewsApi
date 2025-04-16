@@ -12,10 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ViewModel\ViewModel.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Reference Include="ServiceLayer">
       <HintPath>..\ServiceLayer\bin\Debug\net8.0\ServiceLayer.dll</HintPath>
     </Reference>

@@ -51,7 +51,7 @@ namespace ServiceLayer
             var topStoryIds = await GetTopStoryIdsAsync();
             if (topStoryIds?.Length > 0)
             {
-                var stories = await GetStoriesAsync(topStoryIds.Take(_apiSettings.MaxStories));
+                var stories = await GetStoriesAsync(topStoryIds);
                 return FilterAndPaginateStories(stories, pageNumber, pageSize, searchQuery);
             }
             return Enumerable.Empty<StoryModel>();
@@ -70,7 +70,7 @@ namespace ServiceLayer
 
         public async Task<int[]> GetTopStoryIdsAsync()
         {
-            var topStoryIds = await _memoryCache.GetOrCreateAsync("Top200Stories", async entry =>
+            var topStoryIds = await _memoryCache.GetOrCreateAsync("Top500Stories", async entry =>
             {
                 ConfigureCacheEntry(entry);
                 return await _storyRepository.FetchTopStoryIdsAsync() ?? Array.Empty<int>();
@@ -85,38 +85,67 @@ namespace ServiceLayer
             entry.SlidingExpiration = TimeSpan.FromMinutes(_cacheSettings.SlidingExpirationMinutes);
         }
 
+        //private async Task<List<StoryModel>> GetStoriesAsync(IEnumerable<int> storyIds)
+        //{
+        //    var storyTasks = storyIds.Select(id =>
+        //        _memoryCache.GetOrCreateAsync($"Story_{id}", async entry =>
+        //        {
+        //            entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(_cacheSettings.AbsoluteExpirationMinutes);
+        //            return await _storyRepository.FetchStoryDetailsAsync(id);
+        //        })
+        //    );
+        //    var stories = await Task.WhenAll(storyTasks);
+        //    return stories.Where(story => story != null).Select(story => story!).ToList();
+        //}
+
         private async Task<List<StoryModel>> GetStoriesAsync(IEnumerable<int> storyIds)
         {
-            var storyTasks = storyIds.Select(id =>
-                _memoryCache.GetOrCreateAsync($"Story_{id}", async entry =>
+            var cacheOptions = new MemoryCacheEntryOptions
+            {
+                AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(_cacheSettings.AbsoluteExpirationMinutes)
+            };
+
+            var validStories = new List<StoryModel>();
+            var fetchTasks = new List<Task<StoryModel>>();
+
+            foreach (var id in storyIds.OrderByDescending(id => id))
+            {
+                if (validStories.Count >= _apiSettings.MaxStories)
                 {
-                    entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(_cacheSettings.AbsoluteExpirationMinutes);
-                    return await _storyRepository.FetchStoryDetailsAsync(id);
-                })
-            );
-            var stories = await Task.WhenAll(storyTasks);
-            return stories.Where(story => story != null).Select(story => story!).ToList();
+                    break; // Stop fetching when max limit is reached
+                }
+
+                if (_memoryCache.TryGetValue($"Story_{id}", out StoryModel? cachedStory))
+                {
+                    if (!string.IsNullOrWhiteSpace(cachedStory?.Url))
+                    {
+                        validStories.Add(cachedStory);
+                    }
+                    continue;
+                }
+
+                fetchTasks.Add(Task.Run(async () =>
+                {
+                    var story = await _storyRepository.FetchStoryDetailsAsync(id);
+                    _memoryCache.Set($"Story_{id}", story, cacheOptions); // Cache every record
+
+                    return story; // Return the story regardless of URL validity
+                }));
+            }
+
+            var fetchedStories = await Task.WhenAll(fetchTasks);
+
+            validStories.AddRange(fetchedStories.Where(story => !string.IsNullOrWhiteSpace(story?.Url)).Select(story => story!));
+
+            return validStories.Take(_apiSettings.MaxStories).ToList();
         }
 
         private IEnumerable<StoryModel> FilterAndPaginateStories(IEnumerable<StoryModel> stories, int pageNumber, int pageSize, string searchQuery)
         {
-            var filteredStories = stories.Where(story =>
-            {
-                // If the search query is empty or null
-                if (string.IsNullOrWhiteSpace(searchQuery))
-                {
-                    return true; // Include all stories
-                }
-                // If the story title contains the search query (case-insensitive)
-                else if (story.Title?.Contains(searchQuery, StringComparison.OrdinalIgnoreCase) == true)
-                {
-                    return true; // Include the matching story
-                }
-                else
-                {
-                    return false; // Exclude the story
-                }
-            });
+            var filteredStories = stories
+            .Where(story => string.IsNullOrWhiteSpace(searchQuery) || (story.Title?.Contains(searchQuery, StringComparison.OrdinalIgnoreCase) ?? false))
+            .ToList();
+
             // udpate total records
             filteredStories = filteredStories.Select(story =>
             {

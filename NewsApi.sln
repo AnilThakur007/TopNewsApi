@@ -5,6 +5,7 @@ VisualStudioVersion = 17.13.35931.197
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewsApi", "NewsApi\NewsApi.csproj", "{96A90A14-D369-4B76-B5D5-F1707021AC5D}"
 	ProjectSection(ProjectDependencies) = postProject
+		{1E18135E-5D61-4CE0-9D83-A182D27A5AC5} = {1E18135E-5D61-4CE0-9D83-A182D27A5AC5}
 		{44355FA3-441F-4C87-B068-01A0D006B2C3} = {44355FA3-441F-4C87-B068-01A0D006B2C3}
 	EndProjectSection
 EndProject
@@ -60,7 +61,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		        SolutionGuid = {483E33DE-C348-48C4-87B8-C6B571746866}
 		SolutionGuid = {DC35BF7C-7657-4312-8C81-8C8D801A856C}
+		        SolutionGuid = {483E33DE-C348-48C4-87B8-C6B571746866}
 	EndGlobalSection
 EndGlobal
