@@ -85,19 +85,6 @@ namespace ServiceLayer
             entry.SlidingExpiration = TimeSpan.FromMinutes(_cacheSettings.SlidingExpirationMinutes);
         }
 
-        //private async Task<List<StoryModel>> GetStoriesAsync(IEnumerable<int> storyIds)
-        //{
-        //    var storyTasks = storyIds.Select(id =>
-        //        _memoryCache.GetOrCreateAsync($"Story_{id}", async entry =>
-        //        {
-        //            entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(_cacheSettings.AbsoluteExpirationMinutes);
-        //            return await _storyRepository.FetchStoryDetailsAsync(id);
-        //        })
-        //    );
-        //    var stories = await Task.WhenAll(storyTasks);
-        //    return stories.Where(story => story != null).Select(story => story!).ToList();
-        //}
-
         private async Task<List<StoryModel>> GetStoriesAsync(IEnumerable<int> storyIds)
         {
             var cacheOptions = new MemoryCacheEntryOptions
@@ -110,7 +97,7 @@ namespace ServiceLayer
 
             foreach (var id in storyIds.OrderByDescending(id => id))
             {
-                if (validStories.Count >= _apiSettings.MaxStories)
+                if (validStories.Count >= _apiSettings.MaxStories) // max 200 stories
                 {
                     break; // Stop fetching when max limit is reached
                 }
